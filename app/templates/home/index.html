@@ -1,0 +1,105 @@
+{% extends "../base.html" %}
+{% block content %}
+<div class="container">
+   <div class="col-md-12">
+      <div class="row">
+
+         <div class="col-md-12 progress_bar_col">
+            <div class="row">
+               <div class="col-md-1">
+                  <a href="/post_crossref">
+                  <button class="btn btn-primary btn-sm">
+                  Click Here
+                  </button>
+                  </a>
+               </div>
+               <div class="col-md-8 progress_bar_block text-center">
+                  <div class="col-md-12">
+                        <p class="index_tags">To update data from Crossref</p>
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <p class="index_tags">
+                     Data Updated till <i>{{date}}</i>
+                  </p>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-md-12 progress_bar_col">
+            <div class="row">
+               <div class="col-md-1">
+                  <a href="/post_zenodo">
+                  <button class="btn btn-primary btn-sm">
+                  Click Here
+                  </button>
+                  </a>
+               </div>
+               <div class="col-md-8 progress_bar_block text-center">
+                  <div class="col-md-12">
+                        <p class="index_tags">To update data from Zenodo</p>
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <p class="index_tags">
+                     Data Updated till <i>{{date}}</i>
+                  </p>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12 progress_bar_col">
+            <div class="row">
+               <div class="col-md-1">
+                  <a href="/post_dryad">
+                  <button class="btn btn-primary btn-sm">
+                  Click Here
+                  </button>
+                  </a>
+               </div>
+               <div class="col-md-8 progress_bar_block text-center">
+                  <div class="col-md-12">
+                        <p class="index_tags">To update data from Dryad</p>
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <p class="index_tags">
+                     Data Updated till <i>{{date}}</i>
+                  </p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+   <div class="col-md-12 search_block text-center">
+      <div class="row text-center" style="">
+         <a href="/search_author">
+         <button class="btn btn-md btn-warning">
+         Search For Author
+         </button>
+         </a>
+         <a href="/search_publisher">
+         <button class="btn btn-md btn-warning">
+         Search For Publisher
+         </button>
+         </a>
+         <a href="/search_doi">
+         <button class="btn btn-md btn-warning">
+         Search For DOI
+         </button>
+         </a>
+         <a href="/search_funder">
+         <button class="btn btn-md btn-warning">
+         Search For Funder
+         </button>
+         </a>
+         <a href="/search_keyword">
+         <button class="btn btn-md btn-warning">
+         Search Using Title
+         </button>
+         </a>
+      </div>
+   </div>
+</div>
+{% endblock %}

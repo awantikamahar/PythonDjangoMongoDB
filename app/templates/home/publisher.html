@@ -1,0 +1,207 @@
+{% extends "../base.html" %}
+
+
+
+{% block content %}
+<style>
+    .search_publisher_block{
+      margin-top: 30px !important;
+    border: 1px solid #ddd !important;
+    padding: 10px !important;
+    border-radius: 10px !important;
+}
+
+.container{
+    margin-bottom: 50px;
+}
+.founder_block{
+        margin: 5px;
+    border-top: 1px solid #ddd;
+}
+.seach_form_btn{
+    padding-bottom: 35px;
+}
+.result_heading{
+        margin-top: 25px;
+}
+.result{
+        font-size: 28px;
+    padding: 2px;
+    /* border: 1px solid #ddd; */
+    border-radius: 7px;
+    /* background-color: orange; */
+    padding-left: 40px;
+    padding-right: 40px;
+    color: #4e4e4e;
+    border-bottom: 2px solid #ddd;
+        border-top: 2px solid #ddd;
+}
+</style>
+
+
+<form action="searchByPublisher" method="GET">
+    {% csrf_token %}
+    <div class="container text-center">
+    <div class="col-md-12">
+        <h4>Search For Publisher</h4>
+    </div>
+    <div class="col-md-12" style="    margin-top: 25px;">
+        <input class="form-control search_box" type="text" name="publisher_name" placeholder="Search of Publisher" value="{{query}}"></br>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-md btn-primary">Search</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- <a href="/"><button class="btn btn-md btn-danger">Go Back</button></a> -->
+    </div>
+    
+</div>
+
+</form>
+ 
+
+
+
+<!-- <table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Username</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+  </tbody>
+</table>
+ -->
+ {% if cross %}
+
+<div class="container-fluid result_heading">
+    <div class="col-md-12 text-center">
+        <span class="result">Result</span>
+    </div>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if cross.has_previous %}
+            <a href="?page={{ cross.previous_page_number}}/&publisher_name={{query}}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ cross.number }} of {{ cross.paginator.num_pages }}.
+        </span>
+
+        {% if cross.has_next %}
+            <a href="?page={{ cross.next_page_number }}&publisher_name={{query}}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+    {% for i in cross %}
+        <div class="col-md-12 search_publisher_block" style="    background-color: #00c4ff87;">
+
+            <div class="row first_row">
+                <div class="col-md-12 ">
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                        <b>Publisher Name : </b>{{i.name}}
+                        </div>
+                    <div class="col-md-6 text-center">
+                        <b>DOI : </b>
+                        {% if i.DOI %}
+                        {{i.DOI}}
+                        {% endif %}
+
+                        {% if i.dry_doi %}
+                            {{i.dry_doi}}
+                        {% endif %}
+                    </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="row first_row">
+                <div class="col-md-12 ">
+                        <b>Source : </b>{{i.source}}
+                </div>
+            </div>
+
+            <div class="row first_row">
+                <div class="col-md-12 ">
+                        <b>Title : </b>{{i.title}}
+                </div>
+            </div>
+
+        
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    <div class="row founder_block">
+                        {% if i.funder %}
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                {% for x in i.funder %}
+                                <li>
+                                    <b>Founder :</b> {{x}}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            
+                        </div>
+
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                {% for x in i.award %}
+                                <li>
+                                    <b>Award:</b> 
+                                    {% if x %}
+                                    {{x}}
+                                    {% else %}
+                                    None
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            
+                        </div>
+                        {% endif %}
+                        <div class="col-md-12" style="    border-top: 1px solid #ddd;">
+                            <b>Authors :</b> 
+                            {%if i.author %}
+                            {% for x in i.author %}{{x}}<span>, </span>{% endfor %}
+                            {% endif %}
+
+                            {%if i.creator %}
+                            {{i.creator}}
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+            </div>  
+
+            
+            <div class="row first_row">
+                <div class="col-md-12 ">
+                        <b>Reference : </b> {%if i.reference %} {{i.reference}} {%else%} No match found {%endif%}
+                </div>
+            </div>
+            
+        
+
+        </div>
+
+            
+    {% endfor %} 
+ {% endif %}
+
+
+
+
+
+
+
+{% endblock content %}

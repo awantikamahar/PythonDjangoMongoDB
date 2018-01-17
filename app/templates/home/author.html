@@ -1,0 +1,180 @@
+{% extends "../base.html" %}
+{% block content %}
+<style>
+   .search_publisher_block{
+   margin-top: 30px !important;
+   border: 1px solid #ddd !important;
+   padding: 10px !important;
+   border-radius: 10px !important;
+   }
+   .founder_block{
+   margin: 5px;
+   border-top: 1px solid #ddd;
+   }
+   table caption {
+   padding: .5em 0;
+   }
+   .container{
+   margin-bottom: 50px;
+   }
+   .seach_form_btn{
+   padding-bottom: 35px;
+   }
+   .result_heading{
+   margin-top: 25px;
+   }
+   .result{
+   font-size: 28px;
+   padding: 2px;
+   /* border: 1px solid #ddd; */
+   border-radius: 7px;
+   /* background-color: orange; */
+   padding-left: 40px;
+   padding-right: 40px;
+   color: #4e4e4e;
+   border-bottom: 2px solid #ddd;
+   border-top: 2px solid #ddd;
+   }
+   .individual_record{
+   padding: 10px;
+   }
+</style>
+<form action="searchByAuthor" method="GET" class="seach_form">
+   {% csrf_token %}
+   <div class="container text-center">
+   <div class="col-md-12">
+      <h4>Search For Author</h4>
+   </div>
+   <div class="col-md-12" style="    margin-top: 25px;">
+      <input class="form-control search_box" type="text" name="author_name" placeholder="Search of Author" value="{{query}}"></br>
+   </div>
+   <div class="col-md-12 seach_form_btn">
+      <button type="submit" class="btn btn-md btn-primary">Submit</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- <a href="index"><button class="btn btn-md btn-danger">Go Back</button></a> -->
+   </div>
+</form>
+{% if authors %}
+<div class="container-fluid result_heading">
+   <div class="col-md-12 text-center">
+      <span class="result">Result</span>
+   </div>
+</div>
+<div class="pagination">
+   <span class="step-links">
+   {% if authors.has_previous %}
+   <a href="?page={{ authors.previous_page_number }}/&author_name={{query}}">previous</a>
+   {% endif %}
+   <span class="current">
+   Page {{ authors.number }} of {{ authors.paginator.num_pages }}.
+   </span>
+   {% if authors.has_next %}
+   <a href="?page={{ authors.next_page_number }}&author_name={{query}}">next</a>
+   {% endif %}
+   </span>
+</div>
+{% for a in authors %}
+<div class="col-md-12 search_publisher_block" style="background-color: #00c4ff87;">
+   <div class="row">
+      <div class="col-md-12">
+         <span>Author Name</span> 
+         <h4>{{a.author_name}}</h4>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-12 individual_record">
+         <div class="row">
+            <div class="col-md-2">
+               <b>DOI :</b>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+               {{a.doi}}
+            </div>
+         </div>
+      </div>
+      <div class="col-md-12 individual_record">
+         <div class="row">
+            <div class="col-md-2">
+               <b>Publisher :</b>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+               {% if a.publisher is not None %}
+               {{a.publisher}}
+               {%else%}
+               <i style="display: none;">{{a.publisher}}</i>
+               {% endif %}
+            </div>
+         </div>
+      </div>
+      <div class="col-md-12 individual_record">
+         <div class="row">
+            <div class="col-md-2">
+               <b>ISSN : </b>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+               {% for x in a.issn %}{{x}}<span>,</span>{% endfor %}
+            </div>
+         </div>
+      </div>
+      <div class="col-md-12 individual_record">
+         <div class="row">
+            <div class="col-md-2">
+               <b>Title :</b>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+               {{a.title}}
+            </div>
+         </div>
+      </div>
+      <div class="col-md-12 individual_record">
+         <div class="row">
+            <div class="col-md-2">
+               <b>Funder :</b>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+               {% for x in a.funder %}
+               <b>Funder</b> : {{x.funder_name}}, &nbsp;&nbsp;&nbsp;&nbsp;
+               <b>Award</b> : 
+               {%if x.award %}
+               {{x.award}}<br>
+               {%else%}
+               None
+               {% endif %}<br>
+               {% endfor %}
+            </div>
+         </div>
+      </div>
+
+       <div class="col-md-12 individual_record">
+         <div class="row">
+            <div class="col-md-2">
+               <b>Reference :</b>
+            </div>
+            <div class="col-md-8" style="text-align: left;">
+               {%if a.reference%}
+               {{a.reference}}
+               {%endif%}
+               
+            </div>
+         </div>
+      </div>
+
+
+   </div>
+</div>
+{% endfor %}
+<div class="pagination">
+   <span class="step-links">
+   {% if authors.has_previous %}
+   <a href="?page={{ authors.previous_page_number }}/&author_name={{query}}">previous</a>
+   {% endif %}
+   <span class="current">
+   Page {{ authors.number }} of {{ authors.paginator.num_pages }}.
+   </span>
+   {% if authors.has_next %}
+   <a href="?page={{ authors.next_page_number }}&author_name={{query}}">next</a>
+   {% endif %}
+   </span>
+</div>
+{% else %}
+<h1 style="    margin-top: 115px;"></h1>
+{% endif %}
+{% endblock %}

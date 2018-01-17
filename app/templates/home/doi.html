@@ -1,0 +1,304 @@
+{% extends "../base.html" %}
+
+{% block content %}
+
+
+<style>
+  .search_publisher_block{
+      margin-top: 30px !important;
+    border: 1px solid #ddd !important;
+    padding: 10px !important;
+    border-radius: 10px !important;
+}
+
+.founder_block{
+      margin: 5px;
+    border-top: 1px solid #ddd;
+}
+
+table caption {
+  padding: .5em 0;
+}
+.container{
+    margin-bottom: 50px;
+}
+.seach_form_btn{
+  padding-bottom: 35px;
+}
+.result_heading{
+      margin-top: 25px;
+}
+.result{
+      font-size: 28px;
+    padding: 2px;
+    /* border: 1px solid #ddd; */
+    border-radius: 7px;
+    /* background-color: orange; */
+    padding-left: 40px;
+    padding-right: 40px;
+    color: #4e4e4e;
+    border-bottom: 2px solid #ddd;
+        border-top: 2px solid #ddd;
+}
+.individual_record{
+      padding: 10px;
+}
+
+
+</style>
+
+
+
+<form action="searchByDOI" method="GET" class="seach_form">
+  {% csrf_token %}
+  <div class="container text-center">
+  <div class="col-md-12">
+    <h4>Search For DOI</h4>
+  </div>
+  <div class="col-md-12" style="    margin-top: 25px;">
+    <input class="form-control search_box" type="text" name="doi_name" placeholder="Search of DOI" value="{{query}}"></br>
+  </div>
+  <div class="col-md-12 seach_form_btn">
+    <button type="submit" class="btn btn-md btn-primary">Submit</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<<!-- a href="/"><button class="btn btn-md btn-danger">Go Back</button></a> -->
+  </div>
+</form>
+
+
+
+{% if cross %}
+
+<div class="container-fluid result_heading">
+  <div class="col-md-12 text-center">
+    <span class="result">Result</span>
+  </div>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if cross.has_previous %}
+            <a href="?page={{ cross.previous_page_number }}/&doi_name={{query}}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ cross.number }} of {{ cross.paginator.num_pages }}.
+        </span>
+
+        {% if cross.has_next %}
+            <a href="?page={{ cross.next_page_number }}&doi_name={{query}}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+ 
+
+
+
+  {% for i in cross %}
+    <div class="col-md-12 search_publisher_block" style="    background-color: #00c4ff87; text-align: left;">
+
+      <!-- <div class="row first_row">
+        <div class="col-md-12 ">
+          <div class="row">
+            <div class="col-md-6 text-left">
+            <b>Publisher Name : </b>{{i.publisher}}
+            </div>
+          <div class="col-md-6 text-right">
+            <b>DOI : </b>
+            {% if i.doi %}
+            {{i.doi}}
+            {% endif %}
+          </div>
+          </div>
+          
+        </div>
+      </div> -->
+
+      {%if i.publisher%}
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-2">
+            <b>Publisher :</b>
+          </div>
+          <div class="col-md-10">
+            {{i.publisher}}
+          </div>
+        </div>
+      </div>
+      {%endif%}
+
+       {%if i.doi%}
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-2">
+            <b>DOI :</b>
+          </div>
+          <div class="col-md-10">
+            {{i.doi}}
+          </div>
+        </div>
+      </div>
+      {%endif%}
+
+  
+       {% if i.conceptdoi %}
+        <div class="col-md-12 ">
+          <div class="row">
+            <div class="col-md-2">
+              <b>Concept DOI :</b>
+            </div>
+            <div class="col-md-10">
+               {{i.conceptdoi}}
+            </div>
+          </div>
+        </div>
+       {% endif %}
+
+
+
+
+        <div class="col-md-12 ">
+        <div class="row">
+          <div class="col-md-2">
+            <b>Source : </b>
+          </div>
+          <div class="col-md-10">
+            {{i.source}}
+          </div>
+        </div>
+      </div>
+
+     
+
+        <div class="col-md-12 ">
+          <div class="row">
+            <div class="col-md-2">
+              <b>Title : </b> 
+            </div>
+            <div class="col-md-10">
+              {{i.title}}
+            </div>
+            
+        </div>
+      </div>
+
+
+ 
+          
+          
+
+            <div class="col-md-12">
+              <div class="row">
+              <div class="col-md-2">
+                <b>Authors :</b> 
+              </div>
+              <div class="col-md-10">
+                 {%if i.author %}
+                {{i.author}}
+                  {%endif%}
+              </div>
+              </div>
+            </div>
+    
+
+      {%if i.doi_link %}
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <b>DOI Link :</b>
+            </div>
+            <div class="col-md-10">
+              <a href="{{i.doi_link}}" target="blank">{{i.doi_link}}</a>
+            </div>
+          </div>
+           
+        </div>
+        {%endif%}
+
+        {%if i.conceptdoi_link %}
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <b>Concept DOI Link :</b>
+            </div>
+            <div class="col-md-10">
+              <a href="{{i.conceptdoi_link}}" target="blank">{{i.conceptdoi_link}}</a>
+            </div>
+          </div>
+           
+        </div>
+      {%endif%}
+
+      {% if i.reference %}
+      
+        <div class="col-md-12 ">
+          <div class="row">
+            <div class="col-md-2">
+              <b>Reference : </b>
+            </div>
+            <div class="col-md-10">
+              {{i.reference}}
+            </div>
+            
+        </div>
+      </div>
+      {% endif %}
+
+       
+        {%if i.funder%}
+        {%for l in i.funder %}
+          <div class="col-md-12">
+            <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+              <div class="col-md-3">
+                <b>Funder :</b>
+              </div>
+              <div class="col-md-9">
+                {{l.funder_name}}
+              </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+              <div class="col-md-3">
+                <b>Award :</b>
+              </div>
+              <div class="col-md-9">
+                {{l.award}}
+              </div>
+              </div>
+            </div>
+            </div>
+            
+          </div>
+        {%endfor%}
+      {%endif%}
+    
+
+    </div>
+
+      
+  {% endfor %} 
+ 
+  <div class="pagination">
+    <span class="step-links">
+        {% if cross.has_previous %}
+            <a href="?page={{ cross.previous_page_number }}&publisher_name={{query}}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ cross.number }} of {{ cross.paginator.num_pages }}.
+        </span>
+
+        {% if cross.has_next %}
+            <a href="?page={{ cross.next_page_number }}&publisher_name={{query}}">next</a>
+        {% endif %}
+    </span>
+</div>
+  {% else %}
+<h1 style="    margin-top: 115px;"></h1>
+ {% endif %}
+
+
+
+{% endblock content %}

@@ -1,0 +1,335 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<style>
+	.search_publisher_block{
+      margin-top: 30px !important;
+    border: 1px solid #ddd !important;
+    padding: 10px !important;
+    border-radius: 10px !important;
+}
+
+.founder_block{
+	    margin: 5px;
+    border-top: 1px solid #ddd;
+}
+
+table caption {
+	padding: .5em 0;
+}
+.container{
+    margin-bottom: 50px;
+}
+.seach_form_btn{
+	padding-bottom: 35px;
+}
+.result_heading{
+	    margin-top: 25px;
+}
+.result{
+	    font-size: 28px;
+    padding: 2px;
+    /* border: 1px solid #ddd; */
+    border-radius: 7px;
+    /* background-color: orange; */
+    padding-left: 40px;
+    padding-right: 40px;
+    color: #4e4e4e;
+    border-bottom: 2px solid #ddd;
+        border-top: 2px solid #ddd;
+}
+.individual_record{
+      padding: 10px;
+}
+
+.main_block{
+	    margin-top: 25px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: skyblue;
+    padding: 20px;
+}
+
+.single_block{
+	    padding-bottom: 15px;
+}
+
+</style>
+
+<form action="searchByTitle" method="GET">
+	<div class="container text-center">
+	<div class="col-md-12">
+		<h4>Search For Title</h4>
+	</div>
+	<div class="col-md-12" style="    margin-top: 25px;">
+		<input class="form-control search_box" type="text" name="title_name" placeholder="Search of Keyword" value="{{query}}"></br>
+	</div>
+	<div class="col-md-12">
+		<button type="submit" class="btn btn-md btn-primary">Search</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<<!-- a href="/"><button class="btn btn-md btn-danger">Go Back</button></a> -->
+	</div>
+	
+</div>
+</form>
+
+
+
+
+{% if titles %}
+<div class="container-fluid result_heading">
+	<div class="col-md-12 text-center">
+		<span class="result">Result</span>
+	</div>
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if titles.has_previous %}
+            <a href="?page={{ titles.previous_page_number }}/&title_name={{query}}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ titles.number }} of {{ titles.paginator.num_pages }}.
+        </span>
+
+        {% if titles.has_next %}
+            <a href="?page={{ titles.next_page_number }}&title_name={{query}}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+
+{% for t in titles %}
+<div class="row">
+	<div class="col-md-12 main_block">
+		<div class="row">
+			
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Title :</b>
+					</div>
+					<div class="col-md-10">
+						{{t.title}}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>DOI :</b>
+					</div>
+					<div class="col-md-10">
+						{{t.doi}}
+					</div>
+				</div>
+			</div>
+
+			{% if t.conceptdoi %}
+			<div class="col-md-12 individual_record">
+			<div class="row">
+			   <div class="col-md-2">
+			    <b>Concept DOI :</b>
+			  </div>
+			  <div class="col-md-8" style="text-align: left;">
+			    {{t.conceptdoi}}
+			  </div>
+			</div>
+			</div>
+			{%endif%}
+
+			{%if t.links %}
+			{%for li in t.links%}
+			<div class="col-md-12 individual_record">
+			<div class="row">
+			   <div class="col-md-2">
+			    <b>Concept DOI Link :</b>
+			  </div>
+			  <div class="col-md-8" style="text-align: left;">
+			    <a href="{{li.conceptdoi}}">{{li.conceptdoi}}</a>
+			  </div>
+			</div>
+			</div>
+
+			<div class="col-md-12 individual_record">
+			<div class="row">
+			   <div class="col-md-2">
+			    <b>DOI Link :</b>
+			  </div>
+			  <div class="col-md-8" style="text-align: left;">
+			    <a href="{{li.doi}}">{{li.doi}}</a>
+			  </div>
+			</div>
+			</div>
+			{%endfor%}
+			{%endif%}
+
+
+
+
+
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Source :</b>
+					</div>
+					<div class="col-md-10">
+						<b>{{t.source}}</b>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Author :</b>
+					</div>
+					
+					<div class="col-md-10">
+						{%if t.author %}
+						{{t.author}}
+						{%endif%}
+
+						{%if t.creator %}
+						{{t.creator}}
+						{%endif%}
+
+					</div>
+				</div>
+			</div>
+
+
+
+			{%if t.publisher%}
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Publisher :</b>
+					</div>
+					<div class="col-md-10">
+						{{t.publisher}}
+					</div>
+				</div>
+			</div>
+			{% endif %}
+
+
+			
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Reference :</b>
+					</div>
+
+					<div class="col-md-10" >
+						{%if t.reference%}
+						{{t.reference}}
+							{% endif %}
+					</div>
+				</div>
+			</div>
+		
+
+
+			{%if t.related_identifiers%}
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Related Identifier :</b>
+					</div>
+					<div class="col-md-10">
+						{%for iden in t.related_identifiers%}
+						<!-- <div class="col-md-12">
+							{{t.publisher}}
+						</div> -->
+						<ul>
+							<li>{{iden.identifier}}</li>
+							<li>{{iden.relation}}</li>
+						</ul>
+
+						{%endfor%}
+						
+					</div>
+				</div>
+			</div>
+			{% endif %}
+
+
+
+			{% if t.funder %}
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Funder :</b>
+					</div>
+					<div class="col-md-10">
+						{% for x in t.funder %}
+						<div class="row">
+							<div class="col-sm-8">
+								<b>Funder Name :</b> {{x.name}}
+							</div>
+							<div class="col-sm-4">
+								<b>Award :</b> {{x.award}}
+							</div>
+						</div>
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+			{%endif%}
+
+<!-- 			
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Dryad Refer :</b>
+					</div>
+					{% if t.refer_doi %}
+					<div class="col-md-10">
+						{{t.refer_doi}}
+					</div>
+					{%endif%}
+				</div>
+			</div> -->
+			
+
+			{% if t.refer_zenodo %}
+			<div class="col-md-12 single_block">
+				<div class="row">
+					<div class="col-md-2">
+						<b>Zenodo Refer :</b>
+					</div>
+					<div class="col-md-10">
+						{{t.refer_zenodo}}
+					</div>
+				</div>
+			</div>
+			{%endif%}
+			
+		</div>
+	</div>
+</div>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if titles.has_previous %}
+            <a href="?page={{ titles.previous_page_number }}/&title_name={{query}}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ titles.number }} of {{ titles.paginator.num_pages }}.
+        </span>
+
+        {% if titles.has_next %}
+            <a href="?page={{ titles.next_page_number }}&title_name={{query}}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+<h1 style="    margin-top: 115px;"></h1>
+{% endif %}
+{% endblock content %}

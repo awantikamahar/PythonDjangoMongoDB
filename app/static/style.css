@@ -1,0 +1,90 @@
+nav{
+	    background: #656363;
+	    color: #fff !important;
+}
+
+nav>a{
+	color: #fff !important;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+body{
+	font-family: 'Muli', sans-serif !important;
+}
+.index_tags{
+	    font-size: 14px;
+}
+
+.searchContainer{
+	top: 50px;
+	position: relative;
+	width: 100%;
+	height: 200px;
+	padding: 20px
+}
+
+.searchInput{
+	position: relative;
+	width: 800px;
+	padding: 30px;
+	border: 5px, solid, teal;
+	text-align: center;
+	top: 48%;
+	left: 50%;
+	transform: translate(-50%, -50%);	
+}
+
+.search_box{
+	    text-align: center;
+    left: 10%;
+    padding-top: 20px;
+}
+
+
+.searchSubmit{
+	position: relative;
+	width: 160px;
+	padding: 10px;
+	border: 5px, solid, teal;
+	top: 52%;
+	left: 50%;
+	transform: translate(-50%, -50%);	
+}
+
+.progress_bar_col{
+	height: 40px;
+	position: relative;
+	/*top: 50%;*/
+	transform: translateY(-50%);
+	top: 50px;
+    margin-bottom: 15px;
+}
+
+.progress_bar_block{
+	    padding-top: 3px;
+}
+
+.progress{
+	    margin-top: 4px;
+	        padding: 0px !important;
+}
+
+
+.search_block{
+	margin-top: 100px;
+	padding-left: 89px !important;
+}
+
+.search_block div>button{
+	    margin: 5px;
+}
+
+.text-center div>a{
+	    margin: 10px;
+}
+
+
+
+
+
