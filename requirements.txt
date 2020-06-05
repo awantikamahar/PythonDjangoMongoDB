@@ -1,6 +1,6 @@
 certifi==2017.11.5
 chardet==3.0.4
-Django==1.11.7
+Django==1.11.29
 idna==2.6
 mongoengine==0.8.0
 pymongo==2.8
